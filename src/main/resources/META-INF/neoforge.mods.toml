@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+# IGNORE_ALL_VERSION lets vanilla clients (and clients without this mod) join.
+# This is correct for a server-side-only mod.
+[[mods]]
+    modId           = "banneditemsmod"
+    version         = "1.0.0"
+    displayName     = "Banned Items Mod"
+    displayTest     = "IGNORE_ALL_VERSION"
+    description     = '''
+Server-side mod that lets operators ban items by NBT / data-component fingerprint.
+
+Commands (requires op level 2):
+  /banhanditem       - Ban the item you are holding (deletes it from your hand + inventory).
+  /unbanhanditem     - Unban the item you are holding.
+  /banneditemslist   - List every currently banned item.
+  /reloadbanneditems - Reload the config from disk without restarting.
+
+Config file: config/banneditems.json
+'''
+
+[[dependencies.banneditemsmod]]
+    modId        = "neoforge"
+    type         = "required"
+    versionRange = "[21.1.220,)"
+    ordering     = "NONE"
+    side         = "BOTH"
+
+[[dependencies.banneditemsmod]]
+    modId        = "minecraft"
+    type         = "required"
+    versionRange = "[1.21.1,1.22)"
+    ordering     = "NONE"
+    side         = "BOTH"

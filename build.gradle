@@ -1,0 +1,71 @@
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.gradle.userdev' version '7.0.145'
+}
+
+version  = '1.0.0'
+group    = 'com.banneditemsmod'
+
+base {
+    archivesName = 'banneditemsmod-1.21.1'
+}
+
+// Java 21 is required for Minecraft 1.21.x
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+// ---------------------------------------------------------------------------
+// Run configurations (for development – not needed for server deployment)
+// ---------------------------------------------------------------------------
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers',       'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+        modSource project.sourceSets.main
+    }
+
+    server {
+        programArgument '--nogui'
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Dependencies
+// ---------------------------------------------------------------------------
+dependencies {
+    implementation "net.neoforged:neoforge:21.1.220"
+}
+
+// ---------------------------------------------------------------------------
+// Jar manifest
+// ---------------------------------------------------------------------------
+jar {
+    manifest {
+        attributes([
+            'Specification-Title'   : 'banneditemsmod',
+            'Specification-Vendor'  : 'banneditemsmod',
+            'Specification-Version' : '1',
+            'Implementation-Title'  : project.name,
+            'Implementation-Version': project.jar.archiveVersion,
+            'Implementation-Vendor' : 'banneditemsmod',
+        ])
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Publishing (optional – for local Maven cache)
+// ---------------------------------------------------------------------------
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
